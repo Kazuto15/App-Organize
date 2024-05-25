@@ -7,10 +7,9 @@ import styleHome from './style/homeStyle';
 export default function HomeScreen() {
     return (
         <View style={styleHome.container}>
-            <View>
-                <Text style={styleHome.text}>
-                    Olá, Usuário
-                </Text>
+            <View style={styleHome.user}>
+                <Text style={styleHome.text}>Olá, Usuário</Text>
+                <Icon style={{}} name="faUser" size={30} color="#fff" />
             </View>
 
             <LinearGradient
@@ -52,6 +51,14 @@ export default function HomeScreen() {
             <View style={styleHome.extract}>
 
             </View>
+            <View style={styleHome.tabBar}>
+            <View style={styleHome.tabBar2}>
+                <View style={styleHome.emptySpace}/>
+            </View>
+            </View>
+            <Pressable style={styleHome.roundButton}>
+                <Text style={styleHome.roundButtonText}>+</Text>
+            </Pressable>
         </View>
     );
 }
