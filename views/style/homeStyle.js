@@ -10,7 +10,7 @@ const homeStyle = StyleSheet.create({
         position:"relative",
         width: width * 1,
         height: height * 1,
-
+        paddingTop: '10%'
     },
     user:{
         flexDirection: "row",
@@ -33,21 +33,11 @@ const homeStyle = StyleSheet.create({
         paddingRight: 20,
         color:"#fff"
     },
-    text:{
+    textWelcome:{
         color:"#fff",
-        fontSize:15
-    },
-    infoB:{
-        flex:1,
-        flexDirection:"row",
-        justifyContent:"space-between"
-    },
-    infoM:{
-        flex:1,
-        justifyContent:"flex-start",
+        fontSize: 20
     },
     oper:{
-        flex:1,
         position:'absolute',
         left: width * 0.1,
         top: height *0.3,
@@ -62,15 +52,16 @@ const homeStyle = StyleSheet.create({
         width: 50,
         height:50,
         borderRadius:6,
+
     },
     extract:{
         position: "relative",
-        top: height * 0.40,
+        top: height * 0.32,
         left: width * 0.05,
         width: width * 0.9,
         height: height * 0.20,
         backgroundColor: "#fff",
-        marginBottom: 50,
+        marginBottom: 25,
         borderRadius: 6,
     },
     tabBar: {
@@ -119,5 +110,32 @@ const homeStyle = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: - height *0.004,
   },
+  infoB:{
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  infoM:{
+    width: '100%',
+    marginTop: 10,
+  },
+  conta:{
+    fontSize: 18,
+    color: '#fff',
+  },
+  logo:{
+    fontSize: 18,
+    color: '#fff'
+  },
+  saldoText:{
+    color: '#fff',
+    fontSize:14,
+  },
+  saldoMoney:{
+    color: '#fff',
+    fontSize: 25,
+  }
+
 });
 export default homeStyle;
