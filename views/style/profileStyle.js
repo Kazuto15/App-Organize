@@ -19,10 +19,12 @@ const ProfileStyle = StyleSheet.create({
     top: {
         width: width * 1,
         paddingLeft: '5%',
-        height: height * 0.05,
+        height: height * 0.06,
         position: 'absolute',
+        top: height * -0.047,
         zIndex: 1,
         backgroundColor: '#000000',
+        alignItems:'center'
         // backgroundImage: '../assets/fundos/profile-top.png'
     },
 

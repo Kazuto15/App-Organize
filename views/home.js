@@ -10,6 +10,9 @@ export default function HomeScreen(){
     const profileScreen = () =>{
         navigation.navigate('Profile')
     }
+    const addScreen = () =>{
+        navigation.navigate('Add')
+    }
     return (
         <View style={styleHome.container}>
             <View style={styleHome.user}>
@@ -67,7 +70,7 @@ export default function HomeScreen(){
                 <View style={styleHome.emptySpace}/>
             </View>
             </View>
-            <Pressable style={styleHome.roundButton}>
+            <Pressable onPress={addScreen} style={styleHome.roundButton}>
                 <Text style={styleHome.roundButtonText}>+</Text>
             </Pressable>
         </View>

@@ -91,10 +91,10 @@ const homeStyle = StyleSheet.create({
   roundButton: {
     position: 'absolute',
     bottom: height * 0.03,
-    left: width * 0.43,
+    left: width * 0.41,
     width: width *0.18,
     height: height *0.084,
-    borderRadius: 35,
+    borderRadius: 100,
     backgroundColor: '#6200EE',
     justifyContent: 'center',
     alignItems: 'center',

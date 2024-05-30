@@ -4,14 +4,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from "./views/home.js";
+import AddScreen from "./views/add.js";
+import SplashScreen from "./views/splash.js";
 import ProfileScreen from "./views/profile.js";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRoute="Home" screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Home" component={HomeScreen}/>
+        <Stack.Screen name="Add" component={AddScreen}/>
+        <Stack.Screen name="Splash" component={SplashScreen}/>
         <Stack.Screen name="Profile" component={ProfileScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
