@@ -9,8 +9,8 @@ const splashStyle = StyleSheet.create({
         position: 'absolute',
         left: width * 0.30,
         top: height * 0.35,
-        width: width * 0.40,
-        height: height *0.20,
+        width: width * 0.60,
+        height: height *0.30,
     }, 
 });
 export default splashStyle;

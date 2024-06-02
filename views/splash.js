@@ -10,7 +10,7 @@ export default function Splash() {
     }, []);
     const checarLogin = () => {
         try {
-            setTimeout(() => navigation.replace('Home'), 3650)
+            setTimeout(() => navigation.replace('Home'), 7650)
             console.log("Funcionou");
         } catch (error) {
             console.error("Não é possivel logar");
@@ -18,7 +18,7 @@ export default function Splash() {
     }
     return (
         <View style={splashStyle.container}>
-            <Image style={splashStyle.logo} source={require("../assets/logo/logo-anima.gif")}/>
+            <Image style={splashStyle.logo} source={require("../assets/logo/logo-anima-full.gif")}/>
         </View>
     )
 }
