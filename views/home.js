@@ -7,6 +7,9 @@ import styleHome from './style/homeStyle';
 
 export default function HomeScreen(){
     const navigation = useNavigation(); 
+    const ExtratoScreen = () =>{
+        navigation.navigate('Extrato')
+    }
     const profileScreen = () =>{
         navigation.navigate('Profile')
     }
@@ -41,7 +44,7 @@ export default function HomeScreen(){
             </LinearGradient>
 
             <View style={styleHome.oper}>
-                <Pressable style={styleHome.iconOpe}>
+                <Pressable style={styleHome.iconOpe} onPress={ExtratoScreen}>
                     <Icon style={{}} name="faEnvelope" size={30} color="#fff" />
                 </Pressable>
                 <Pressable style={styleHome.iconOpe}>

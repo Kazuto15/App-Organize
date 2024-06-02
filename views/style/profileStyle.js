@@ -19,11 +19,13 @@ const ProfileStyle = StyleSheet.create({
     top: {
         width: width * 1,
         paddingLeft: '5%',
-        height: height * 0.06,
+        height: height * 0.1,
+        display:'flex',
+        justifyContent: 'flex-end',
         position: 'absolute',
         top: height * -0.047,
         zIndex: 1,
-        backgroundColor: '#000000',
+        backgroundColor: '#000000E8',
         alignItems:'center'
         // backgroundImage: '../assets/fundos/profile-top.png'
     },
