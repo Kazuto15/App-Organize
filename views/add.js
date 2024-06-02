@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import addStyle from './style/addStyle'
 
 export default function Add() {
+    const navigation = useNavigation();
     const [selectedButton, setSelectedButton] = useState(null);
     const handleButtonPress = (button) => {
         setSelectedButton(button);

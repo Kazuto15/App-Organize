@@ -4,67 +4,67 @@ const height = Dimensions.get('window').height;
 
 
 const homeStyle = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#1e1e1e',
-        position:"relative",
-        width: width * 1,
-        height: height * 1,
-        paddingTop: '10%'
-    },
-    user:{
-        flexDirection: "row",
-        justifyContent:"space-between",
-        paddingLeft:width *0.05,
-        paddingRight:width *0.05,
-        paddingTop:height * 0.01,
-    },
-    gradient: {
-        flex:1,
-        position:"absolute",
-        top: height *0.1,
-        left: width *0.05,
-        height: height * 0.15,
-        width: width * 0.9,
-        marginTop: 15,
-        borderRadius: 20,
-        paddingTop: 10,
-        paddingLeft: 20,
-        paddingRight: 20,
-        color:"#fff"
-    },
-    textWelcome:{
-        color:"#fff",
-        fontSize: 20
-    },
-    oper:{
-        position:'absolute',
-        left: width * 0.1,
-        top: height *0.3,
-        width: width *0.8,
-        flexDirection:'row',
-        justifyContent:'space-evenly',
-    },
-    iconOpe:{
-        justifyContent:'center',
-        alignItems:"center",
-        backgroundColor:"#618FD3",
-        width: 50,
-        height:50,
-        borderRadius:6,
+  container: {
+    flex: 1,
+    backgroundColor: '#1e1e1e',
+    position: "relative",
+    width: width * 1,
+    height: height * 1,
+    paddingTop: '10%'
+  },
+  user: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingLeft: width * 0.05,
+    paddingRight: width * 0.05,
+    paddingTop: height * 0.01,
+  },
+  gradient: {
+    flex: 1,
+    position: "absolute",
+    top: height * 0.1,
+    left: width * 0.05,
+    height: height * 0.15,
+    width: width * 0.9,
+    marginTop: 15,
+    borderRadius: 20,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: "#fff"
+  },
+  textWelcome: {
+    color: "#fff",
+    fontSize: 20
+  },
+  oper: {
+    position: 'absolute',
+    left: width * 0.1,
+    top: height * 0.3,
+    width: width * 0.8,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  iconOpe: {
+    justifyContent: 'center',
+    alignItems: "center",
+    backgroundColor: "#618FD3",
+    width: 50,
+    height: 50,
+    borderRadius: 6,
 
-    },
-    extract:{
-        position: "relative",
-        top: height * 0.32,
-        left: width * 0.05,
-        width: width * 0.9,
-        height: height * 0.20,
-        backgroundColor: "#fff",
-        marginBottom: 25,
-        borderRadius: 6,
-    },
-    tabBar: {
+  },
+  extract: {
+    position: "relative",
+    top: height * 0.32,
+    left: width * 0.05,
+    width: width * 0.9,
+    height: height * 0.20,
+    backgroundColor: "#fff",
+    marginBottom: 25,
+    borderRadius: 6,
+  },
+  tabBar: {
     position: 'absolute',
     bottom: 10,
     left: 10,
@@ -87,13 +87,13 @@ const homeStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
+
   roundButton: {
     position: 'absolute',
     bottom: height * 0.03,
     left: width * 0.41,
-    width: width *0.18,
-    height: height *0.084,
+    width: width * 0.18,
+    height: height * 0.084,
     borderRadius: 100,
     backgroundColor: '#6200EE',
     justifyContent: 'center',
@@ -108,31 +108,31 @@ const homeStyle = StyleSheet.create({
     color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
-    marginTop: - height *0.004,
+    marginTop: - height * 0.004,
   },
-  infoB:{
+  infoB: {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  infoM:{
+  infoM: {
     width: '100%',
     marginTop: 10,
   },
-  conta:{
+  conta: {
     fontSize: 18,
     color: '#fff',
   },
-  logo:{
+  logo: {
     fontSize: 18,
     color: '#fff'
   },
-  saldoText:{
+  saldoText: {
     color: '#fff',
-    fontSize:14,
+    fontSize: 14,
   },
-  saldoMoney:{
+  saldoMoney: {
     color: '#fff',
     fontSize: 25,
   }

@@ -8,12 +8,14 @@ const addStyle = StyleSheet.create({
   top: {
     width: width * 1,
     paddingLeft: '5%',
-    height: height * 0.06,
+    height: height * 0.1,
     position: 'absolute',
     top: 0,
     zIndex: 1,
     backgroundColor: '#000000',
-    alignItems: 'center'
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginBottom: height*0.05,
   },
   voltar: {
     position: 'absolute',
