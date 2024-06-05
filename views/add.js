@@ -13,6 +13,12 @@ export default function Add() {
     const retornar = () => {
         navigation.navigate('Home')
     }
+
+    const [valor, setValor] = useState("");
+    const [titulo, setTitulo] = useState("");
+    const [desc, setDesc] = useState("");
+    
+
     return (
         <View style={addStyle.container}>
             <View style={addStyle.top}>
@@ -24,15 +30,15 @@ export default function Add() {
             <View style={addStyle.contFunction}>
                 <View>
                     <Text style={addStyle.subt}>Valor:</Text>
-                    <TextInput style={addStyle.TxInput} />
+                    <TextInput style={addStyle.TxInput} onChangeText={setValor} />
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Titulo:</Text>
-                    <TextInput style={addStyle.TxInput} />
+                    <TextInput style={addStyle.TxInput} onChangeText={setTitulo}/>
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Desc:</Text>
-                    <TextInput style={addStyle.TxInput} />
+                    <TextInput style={addStyle.TxInput} onChangeText={setDesc} />
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Tipo</Text>
@@ -62,7 +68,7 @@ export default function Add() {
                                 selectedButton === 'Despesa' && addStyle.buttonActiveDespesa
                             ]}
                             onPress={() => handleButtonPress('Despesa')}
-                        >
+                                     >
                             <Text
                                 style={[
                                     addStyle.buttonText,
@@ -76,8 +82,9 @@ export default function Add() {
                     </View>
                 </View>
                 <View>
+                    {/* <Text style={{ color: '#fff' }}>{valor}, {titulo}, {desc}, {selectedButton}</Text> */}
                     <Pressable style={addStyle.submit}>
-                        <Text style={{color:'#fff', fontSize:24,textAlign:"center",}}>Salvar</Text>
+                        <Text style={{ color: '#fff', fontSize: 24, textAlign: "center", }}>Salvar</Text>
                     </Pressable>
                 </View>
             </View>
