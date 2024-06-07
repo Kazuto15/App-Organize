@@ -3,6 +3,7 @@ import { View, Text, TextInput, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import addStyle from './style/addStyle'
+import sqLiteExtrato from '../sqlite/sqLiteExtrato';
 
 export default function Add() {
     const navigation = useNavigation();
@@ -13,11 +14,26 @@ export default function Add() {
     const retornar = () => {
         navigation.navigate('Home')
     }
-
+    // const [id,setId] = useState("")
     const [valor, setValor] = useState("");
     const [titulo, setTitulo] = useState("");
     const [desc, setDesc] = useState("");
     
+    const salvar = () =>{
+        sqLiteExtrato.create({
+            valor: valor,
+            titulo: titulo,
+            desc: desc,
+            tipo: selectedButton,
+        })
+        // setId("");
+        setValor("");
+        setTitulo("");
+        setDesc("");
+        setSelectedButton("");
+        console.log("salvamento feito feito!!!")
+        navigation.navigate("Home")
+    }
 
     return (
         <View style={addStyle.container}>
@@ -30,7 +46,7 @@ export default function Add() {
             <View style={addStyle.contFunction}>
                 <View>
                     <Text style={addStyle.subt}>Valor:</Text>
-                    <TextInput style={addStyle.TxInput} onChangeText={setValor} />
+                    <TextInput style={addStyle.TxInput} keyboardType='numeric' onChangeText={setValor} />
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Titulo:</Text>
@@ -83,7 +99,7 @@ export default function Add() {
                 </View>
                 <View>
                     {/* <Text style={{ color: '#fff' }}>{valor}, {titulo}, {desc}, {selectedButton}</Text> */}
-                    <Pressable style={addStyle.submit}>
+                    <Pressable style={addStyle.submit} onPress={salvar}>
                         <Text style={{ color: '#fff', fontSize: 24, textAlign: "center", }}>Salvar</Text>
                     </Pressable>
                 </View>

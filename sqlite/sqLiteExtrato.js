@@ -14,12 +14,13 @@ db.transaction((tx) => {
 });
 
 const create = (obj) => {
+  console.log(obj)
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "INSERT INTO Extrato (id, valor, titulo, desc, tipo) values (?, ?, ?, ?, ?);",
-        [obj.id, obj.valor, obj.titulo, obj.desc, obj.tipo],
+        "INSERT INTO Extrato ( valor, titulo, desc, tipo) values ( ?, ?, ?, ?);",
+        [obj.valor, obj.titulo, obj.desc, obj.tipo],
        
         //-----------------------função de callback
         (_, { rowsAffected, insertId }) => {
