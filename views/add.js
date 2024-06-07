@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import addStyle from './style/addStyle'
+import sqLiteExtrato from '../sqlite/sqLiteExtrato';
 
 export default function Add() {
     const navigation = useNavigation();
@@ -13,6 +14,40 @@ export default function Add() {
     const retornar = () => {
         navigation.navigate('Home')
     }
+    // const [id,setId] = useState("")
+    const [valor, setValor] = useState("");
+    const [titulo, setTitulo] = useState("");
+    const [desc, setDesc] = useState("");
+    const [modalShow, setModalShow] = useState(false)
+
+    const carregamento = () => {
+        modalVisble()
+        salvar()
+    }
+    const modalVisble = () =>{
+        setModalShow(true)
+        const time = setTimeout(() => {
+            setModalShow(false);
+            navigation.navigate("Home")
+          }, 3000);
+    }
+
+    const salvar = () =>{
+        sqLiteExtrato.create({
+            valor: valor,
+            titulo: titulo,
+            desc: desc,
+            tipo: selectedButton,
+        })
+        // setId("");
+        setValor("");
+        setTitulo("");
+        setDesc("");
+        setSelectedButton("");
+        console.log("salvamento feito feito!!!")
+       
+    }
+
     return (
         <View style={addStyle.container}>
             <View style={addStyle.top}>
@@ -24,15 +59,15 @@ export default function Add() {
             <View style={addStyle.contFunction}>
                 <View>
                     <Text style={addStyle.subt}>Valor:</Text>
-                    <TextInput style={addStyle.TxInput} />
+                    <TextInput style={addStyle.TxInput} keyboardType='numeric' onChangeText={setValor} />
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Titulo:</Text>
-                    <TextInput style={addStyle.TxInput} />
+                    <TextInput style={addStyle.TxInput} onChangeText={setTitulo}/>
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Desc:</Text>
-                    <TextInput style={addStyle.TxInput} />
+                    <TextInput style={addStyle.TxInput} onChangeText={setDesc} />
                 </View>
                 <View>
                     <Text style={addStyle.subt}>Tipo</Text>
@@ -62,7 +97,7 @@ export default function Add() {
                                 selectedButton === 'Despesa' && addStyle.buttonActiveDespesa
                             ]}
                             onPress={() => handleButtonPress('Despesa')}
-                        >
+                                     >
                             <Text
                                 style={[
                                     addStyle.buttonText,
@@ -76,11 +111,19 @@ export default function Add() {
                     </View>
                 </View>
                 <View>
-                    <Pressable style={addStyle.submit}>
-                        <Text style={{color:'#fff', fontSize:24,textAlign:"center",}}>Salvar</Text>
+                    {/* <Text style={{ color: '#fff' }}>{valor}, {titulo}, {desc}, {selectedButton}</Text> */}
+                    <Pressable style={addStyle.submit} onPress={carregamento}>
+                        <Text style={{ color: '#fff', fontSize: 24, textAlign: "center", }}>Salvar</Text>
                     </Pressable>
                 </View>
             </View>
+            <Modal visible={modalShow} >
+                <View style={addStyle.modalShow} >
+                    <View style={addStyle.carregamentoModal}>
+                    <ActivityIndicator size="large" color="#6D37E0" />
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
