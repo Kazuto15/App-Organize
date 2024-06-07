@@ -10,7 +10,7 @@ export default function Splash() {
     }, []);
     const checarLogin = () => {
         try {
-            setTimeout(() => navigation.replace('Home'), 7650)
+            setTimeout(() => navigation.replace('Access'), 3650)
             console.log("Funcionou");
         } catch (error) {
             console.error("Não é possivel logar");

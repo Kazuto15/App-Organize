@@ -12,7 +12,7 @@ const addStyle = StyleSheet.create({
     position: 'absolute',
     top: 0,
     zIndex: 1,
-    backgroundColor: '#000000',
+    // backgroundColor: '#000000',
     display: 'flex',
     justifyContent: 'flex-end',
     marginBottom: height*0.05,
@@ -95,6 +95,20 @@ const addStyle = StyleSheet.create({
     width: width *0.70,
     marginHorizontal: 60,
     borderRadius: 7,
+  },
+  modalShow:{
+    top: 0,
+    width: width*1,
+    height: height*1,
+    backgroundColor: "#1e1e1e",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  carregamentoModal:{
+    top: -height*0.05,
+    width: width*0.15,
+    height: height*0.1,
   }
 })
 export default addStyle;
