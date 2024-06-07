@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import addStyle from './style/addStyle'
@@ -18,7 +18,20 @@ export default function Add() {
     const [valor, setValor] = useState("");
     const [titulo, setTitulo] = useState("");
     const [desc, setDesc] = useState("");
-    
+    const [modalShow, setModalShow] = useState(false)
+
+    const carregamento = () => {
+        modalVisble()
+        salvar()
+    }
+    const modalVisble = () =>{
+        setModalShow(true)
+        const time = setTimeout(() => {
+            setModalShow(false);
+            navigation.navigate("Home")
+          }, 3000);
+    }
+
     const salvar = () =>{
         sqLiteExtrato.create({
             valor: valor,
@@ -32,7 +45,7 @@ export default function Add() {
         setDesc("");
         setSelectedButton("");
         console.log("salvamento feito feito!!!")
-        navigation.navigate("Home")
+       
     }
 
     return (
@@ -99,11 +112,18 @@ export default function Add() {
                 </View>
                 <View>
                     {/* <Text style={{ color: '#fff' }}>{valor}, {titulo}, {desc}, {selectedButton}</Text> */}
-                    <Pressable style={addStyle.submit} onPress={salvar}>
+                    <Pressable style={addStyle.submit} onPress={carregamento}>
                         <Text style={{ color: '#fff', fontSize: 24, textAlign: "center", }}>Salvar</Text>
                     </Pressable>
                 </View>
             </View>
+            <Modal visible={modalShow} >
+                <View style={addStyle.modalShow} >
+                    <View style={addStyle.carregamentoModal}>
+                    <ActivityIndicator size="large" color="#6D37E0" />
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
