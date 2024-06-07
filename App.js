@@ -7,8 +7,7 @@ import HomeScreen from "./views/home.js";
 import AddScreen from "./views/add.js";
 import SplashScreen from "./views/splash.js";
 import ProfileScreen from "./views/profile.js";
-import ExtratoScreen from "./views/extrato.js";
-import AccessScreen from "./views/access.js";
+import ExtratoScreen from "./views/extrato.js"
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -19,7 +18,6 @@ export default function App() {
         <Stack.Screen name="Splash" component={SplashScreen}/>
         <Stack.Screen name="Profile" component={ProfileScreen}/>
         <Stack.Screen name="Extrato" component={ExtratoScreen}/>
-        <Stack.Screen name="Access" component={AccessScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

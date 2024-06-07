@@ -43,16 +43,15 @@ const ExtratoScreen = StyleSheet.create({
         // backgroundColor: '#509',
     },
     gradient: {
-        top: height * 0.13,
+        flex: 1,
         left: width * 0.05,
+        minHeight: height * 0.15,
         width: width * 0.9,
-        height: height *0.17,
         borderRadius: 20,
         paddingTop: 10,
         paddingLeft: 20,
         paddingRight: 20,
         color: "#fff",
-        marginBottom:height * 0.12,
     },
     infoB: {
         width: '100%',
