@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from './../component/icon';
 import { useNavigation } from '@react-navigation/native';
 import styleHome from './style/homeStyle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import sqLiteUser from '../sqlite/sqLiteUser';
 
 export default function HomeScreen(){
+    const [cpf, setCpf] = useState('');
+    const [nome, setNome] = useState('');
+    const [saldo, setSaldo] = useState('');
+
+    const [userData, setUserData] = useState([]);
+
+    useEffect(() => {
+        getUser();
+        getUserData();
+    })
+
+    // navegação
     const navigation = useNavigation(); 
     const ExtratoScreen = () =>{
         navigation.navigate('Extrato')
@@ -16,10 +30,35 @@ export default function HomeScreen(){
     const addScreen = () =>{
         navigation.navigate('Add')
     }
+
+    // getUser
+    const getUser = async () => {
+        try {
+            const value = await AsyncStorage.getItem('cpf');
+            if (value !== null) {
+                setCpf(value)
+                // console.log(cpf)
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    };
+    const getUserData = async () => {
+        try {
+            const userData = await sqLiteUser.selectByCpf(cpf);
+            console.log("saldo" + userData.saldo);
+            setNome(userData.nome)
+            setSaldo(userData.saldo)
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+    
+
     return (
         <View style={styleHome.container}>
             <View style={styleHome.user}>
-                <Text style={styleHome.textWelcome}>Olá, Usuário</Text>
+                <Text style={styleHome.textWelcome}>Olá, {nome}</Text>
                 <Pressable onPress={profileScreen}>
                     <Icon style={{}} name="faUser" size={30} color="#fff" />
                 </Pressable>
@@ -38,7 +77,7 @@ export default function HomeScreen(){
                     </View>
                     <View style={styleHome.infoM}>
                         <Text style={styleHome.saldoText}>Saldo em reais</Text>
-                        <Text style={styleHome.saldoMoney}>R$ 2.000,00</Text>
+                        <Text style={styleHome.saldoMoney}>R$ {saldo}</Text>
                     </View>
                 </View>
             </LinearGradient>

@@ -6,3 +6,6 @@ npm install react-native-elements
 npm install @react-navigation/native @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
 npm install expo-sqlite@13.2.2
 npm install react-native-modal
+npm install react-native-paper
+npm install react-native-masked-text
+npx expo install @react-native-async-storage/async-storage

@@ -6,20 +6,25 @@ import styles from "./style/extratoStyle";
 
 import sqLiteExtrato from "../sqlite/sqLiteExtrato";
 import { ScrollView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Extrato() {
+  useEffect(() => {
+    extratoByCPf();
+    getUser();
+  }, [extratoByCPf]);
+
   const navigation = useNavigation();
   const [extrato, setExtrato] = useState([]);
+  const [cpf, setCpf] = useState("")
 
   const retornar = () => {
     navigation.navigate("Home");
   };
 
-  useEffect(() => {
-    extratoAll();
-  }, []);
+  
 
-  const extratoAll = async () => {
+  const extratoByCPf = async () => {
     const extratos = await sqLiteExtrato.all();
     if (extratos !== false) {
       setExtrato(extratos);
@@ -27,8 +32,23 @@ export default function Extrato() {
     } else {
       return false;
     }
+    // try {
+    //   const extratos = await sqLiteExtrato.selectByCpf(cpf);
+    //   console.log("aaaaaa "+extratos);
+    // } catch (error) {
+    //     console.error("Error fetching user data:", error);
+    // }
   };
-
+  const getUser = async () => {
+    try {
+        const value = await AsyncStorage.getItem('cpf');
+        if (value !== null) {
+            setCpf(value)
+        }
+    } catch (e) {
+        console.error(e)
+    }
+};
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.tipo}>
@@ -82,7 +102,7 @@ export default function Extrato() {
           </View>
           <View style={styles.infoM}>
             <Text style={styles.saldoText}>Saldo em reais</Text>
-            <Text style={styles.saldoMoney}>R$ 2.000,00</Text>
+            <Text style={styles.saldoMoney}>R$ {cpf}</Text>
           </View>
         </View>
       </LinearGradient>

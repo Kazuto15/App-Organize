@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import addStyle from './style/addStyle'
 import sqLiteExtrato from '../sqlite/sqLiteExtrato';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Add() {
+    useEffect(() => {
+        getUser()
+    })
+
     const navigation = useNavigation();
     const [selectedButton, setSelectedButton] = useState(null);
     const handleButtonPress = (button) => {
@@ -18,6 +23,7 @@ export default function Add() {
     const [valor, setValor] = useState("");
     const [titulo, setTitulo] = useState("");
     const [desc, setDesc] = useState("");
+    const [cpf, setCpf] = useState("");
     const [modalShow, setModalShow] = useState(false)
 
     const carregamento = () => {
@@ -38,6 +44,7 @@ export default function Add() {
             titulo: titulo,
             desc: desc,
             tipo: selectedButton,
+            cpf: cpf,
         })
         // setId("");
         setValor("");
@@ -45,9 +52,18 @@ export default function Add() {
         setDesc("");
         setSelectedButton("");
         console.log("salvamento feito feito!!!")
-       
     }
-
+    const getUser = async () => {
+        try {
+            const value = await AsyncStorage.getItem('cpf');
+            if (value !== null) {
+                setCpf(value)
+                // console.log(cpf)
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    };
     return (
         <View style={addStyle.container}>
             <View style={addStyle.top}>

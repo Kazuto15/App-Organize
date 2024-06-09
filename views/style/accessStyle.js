@@ -66,7 +66,6 @@ const accessStyle = StyleSheet.create({
         width: width*1,
         height: height*0.4,
         backgroundColor: "#0c0c0ce1",
-        b: 'blur(20)',
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         paddingTop: 20,
@@ -120,6 +119,42 @@ const accessStyle = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: "#9937C8",
     },
+
+    
+    cadastroArea:{
+        width: width*1,
+        height: height*0.65,
+        backgroundColor: "#0c0c0ce1",
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
+    },
+    cadInputs:{
+        width: "100%",
+        height: 60,
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginBottom: 15,
+    },
+    labelInputCad:{
+        color: '#fff',
+        fontSize: 17,
+    },
+    inputCadastro:{
+        borderWidth:1,
+        borderColor: "#fff",
+        borderRadius: 5,
+        height: 40,
+        color: "#fff",
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+
+
+
+
+
 
     modalShow:{
         top: 0,

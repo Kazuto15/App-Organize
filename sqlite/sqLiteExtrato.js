@@ -9,7 +9,7 @@ db.transaction((tx) => {
   //tx.executeSql("DROP TABLE Extrato;");
   //<<<<<<<<<<<<<<<<<<<<<<<< USE ISSO APENAS DURANTE OS TESTES!!! >>>>>>>>>>>>>>>>>>>>>>>
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS Extrato (id INT PRIMARY KEY, valor REAL, titulo TEXT, desc TEXT, tipo TEXT);"
+    "CREATE TABLE IF NOT EXISTS Extrato (id INT PRIMARY KEY, valor REAL, titulo TEXT, desc TEXT, tipo TEXT, cpf TEXT);"
   );
 });
 
@@ -19,8 +19,8 @@ const create = (obj) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "INSERT INTO Extrato ( valor, titulo, desc, tipo) values ( ?, ?, ?, ?);",
-        [obj.valor, obj.titulo, obj.desc, obj.tipo],
+        "INSERT INTO Extrato ( valor, titulo, desc, tipo, cpf) values ( ?, ?, ?, ?, ?);",
+        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.cpf],
        
         //-----------------------função de callback
         (_, { rowsAffected, insertId }) => {
@@ -53,8 +53,8 @@ const update = (obj) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "UPDATE Extrato SET valor = ?, titulo = ?, desc = ?, tipo = ? WHERE id = ?;",
-        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.id],
+        "UPDATE Extrato SET valor = ?, titulo = ?, desc = ?, tipo = ? WHERE cpf = ?;",
+        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.cpf],
        
         //-----------------------função de callback
         (_, { rowsAffected }) => {
@@ -67,19 +67,17 @@ const update = (obj) => {
   });
 };
 
-const selectById = (id) => {
+const selectByCpf = (cpf) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM Extrato WHERE id = ?;",
-        [id],
-        //-----------------------
+        "SELECT * FROM Extrato WHERE cpf = ?;",
+        [cpf],
         (_, { rows }) => {
           if (rows.length > 0) resolve(rows._array[0]);
-          else reject("No record found with id: " + id); // nenhum registro encontrado
+          else reject("No record found with CPF: " + cpf);
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error)
       );
     });
   });
@@ -89,5 +87,5 @@ export default {
   create,
   all,
   update,
-  selectById,
+  selectByCpf,
 };
