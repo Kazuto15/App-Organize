@@ -2,59 +2,70 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from './../component/icon';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import styleHome from './style/homeStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import sqLiteUser from '../sqlite/sqLiteUser';
 
-export default function HomeScreen(){
+export default function HomeScreen() {
+    const [id, setId] = useState('');
     const [cpf, setCpf] = useState('');
     const [nome, setNome] = useState('');
     const [saldo, setSaldo] = useState('');
 
-    const [userData, setUserData] = useState([]);
+    const navigation = useNavigation();
 
     useEffect(() => {
-        getUser();
-        getUserData();
-    })
+        getDataAsync();
+    }, []);
 
-    // navegação
-    const navigation = useNavigation(); 
-    const ExtratoScreen = () =>{
-        navigation.navigate('Extrato')
-    }
-    const profileScreen = () =>{
-        navigation.navigate('Profile')
-    }
-    const addScreen = () =>{
-        navigation.navigate('Add')
-    }
-
-    // getUser
-    const getUser = async () => {
-        try {
-            const value = await AsyncStorage.getItem('cpf');
-            if (value !== null) {
-                setCpf(value)
-                // console.log(cpf)
+    useFocusEffect(
+        React.useCallback(() => {
+            if (id && cpf) {
+                getDataUser();
             }
+        }, [id, cpf])
+    );
+
+    const ExtratoScreen = () => {
+        navigation.navigate('Extrato');
+    };
+
+    const profileScreen = () => {
+        navigation.navigate('Profile');
+    };
+
+    const addScreen = () => {
+        navigation.navigate('Add');
+    };
+
+    const getDataAsync = async () => {
+        try {
+            const idAsync = await AsyncStorage.getItem('id-user');
+            const cpfAsync = await AsyncStorage.getItem('cpf-user');
+            setId(idAsync || ''); // assegura que não será undefined
+            setCpf(cpfAsync || ''); // assegura que não será undefined
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
     };
-    const getUserData = async () => {
-        try {
-            const userData = await sqLiteUser.selectByCpf(cpf);
-            console.log("saldo" + userData.saldo);
-            setNome(userData.nome)
-            setSaldo(userData.saldo)
-        } catch (error) {
-            console.error("Error fetching user data:", error);
+
+    const getDataUser = async () => {
+        const userData = await sqLiteUser.selectById(id);
+        if (userData) {
+            setNome(userData.nome);
+            setSaldo(userData.saldo);
+        } else {
+            console.log("Usuário não encontrado.");
         }
+    };
+    const formatCurrency = (value) => {
+        if (value !== null && !isNaN(value)) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+        return 'R$ 0,00';
     };
     
-
     return (
         <View style={styleHome.container}>
             <View style={styleHome.user}>
@@ -77,7 +88,8 @@ export default function HomeScreen(){
                     </View>
                     <View style={styleHome.infoM}>
                         <Text style={styleHome.saldoText}>Saldo em reais</Text>
-                        <Text style={styleHome.saldoMoney}>R$ {saldo}</Text>
+                        <Text style={styleHome.saldoMoney}>{formatCurrency(saldo)}</Text>
+
                     </View>
                 </View>
             </LinearGradient>
@@ -99,18 +111,16 @@ export default function HomeScreen(){
 
             <View style={styleHome.extract}>
                 <View style={styleHome.cards}>
-
                 </View>
             </View>
             <View style={styleHome.extract}>
                 <View style={styleHome.cards}>
-
                 </View>
             </View>
             <View style={styleHome.tabBar}>
-            <View style={styleHome.tabBar2}>
-                <View style={styleHome.emptySpace}/>
-            </View>
+                <View style={styleHome.tabBar2}>
+                    <View style={styleHome.emptySpace}/>
+                </View>
             </View>
             <Pressable onPress={addScreen} style={styleHome.roundButton}>
                 <Text style={styleHome.roundButtonText}>+</Text>

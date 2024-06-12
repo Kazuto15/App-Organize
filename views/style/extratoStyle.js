@@ -79,21 +79,13 @@ const ExtratoScreen = StyleSheet.create({
         color: '#fff',
         fontSize: 25,
     },
-    cards: {
-        width: width * 1,
-        top: height * 0.05,
-        flexDirection: 'column-reverse',
-        alignItems: 'center',
-        paddingBottom: 60,
-        // backgroundColor: '#082',
-    },
     card: {
         width: width * 0.9,
         height: height * 0.2,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#fff',
-        marginTop: height*0.01
+        marginTop: height*0.01,
     },
     tipo: {
         width: '100%',

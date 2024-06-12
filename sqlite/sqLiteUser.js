@@ -6,10 +6,10 @@ import db from "./SQLiteDataBase";
  */
 db.transaction((tx) => {
   //<<<<<<<<<<<<<<<<<<<<<<<< USE ISSO APENAS DURANTE OS TESTES!!! >>>>>>>>>>>>>>>>>>>>>>>
-  //tx.executeSql("DROP TABLE User;");
+  //tx.executeSql("DROP TABLE IF EXISTS User;");
   //<<<<<<<<<<<<<<<<<<<<<<<< USE ISSO APENAS DURANTE OS TESTES!!! >>>>>>>>>>>>>>>>>>>>>>>
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS User (nome TEXT, cpf TEXT PRIMARY KEY, email TEXT, numero TEXT, senha TEXT, saldo REAL);"
+    "CREATE TABLE IF NOT EXISTS User (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, cpf TEXT, email TEXT, numero TEXT, senha TEXT, saldo REAL);"
   );
 });
 
@@ -20,7 +20,6 @@ const create = (obj) => {
       tx.executeSql(
         "INSERT INTO User (nome, cpf, email, numero, senha, saldo) values (?, ?, ?, ?, ?, ?);",
         [obj.nome, obj.cpf, obj.email, obj.numero, obj.senha, obj.saldo],
-       
         //-----------------------função de callback
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(true);
@@ -52,9 +51,8 @@ const update = (obj) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "UPDATE User SET nome = ?, email = ?, numero = ?, senha = ? WHERE cpf = ?;",
-        [obj.nome, obj.email, obj.numero, obj.senha, obj.cpf],
-       
+        "UPDATE User SET nome = ?, email = ?, numero = ?, senha = ? WHERE id = ?;",
+        [obj.nome, obj.email, obj.numero, obj.senha, obj.id],
         //-----------------------função de callback
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(true);
@@ -83,6 +81,23 @@ const selectByCpf = (cpf) => {
     });
   });
 };
+const selectById = (id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM User WHERE id = ?;",
+        [id],
+        //-----------------------
+        (_, { rows }) => {
+          if (rows.length > 0) resolve(rows._array[0]);
+          else reject("No record found with id: " + id); // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
 
 const verifyCredentials = (cpf, senha) => {
   return new Promise((resolve, reject) => {
@@ -91,8 +106,12 @@ const verifyCredentials = (cpf, senha) => {
         "SELECT * FROM User WHERE cpf = ? AND senha = ?;",
         [cpf, senha],
         (_, { rows }) => {
-          if (rows.length > 0) resolve(true);
-          else reject("Invalid credentials"); // credenciais inválidas
+          if (rows.length > 0) {
+            const user = rows.item(0); // obtém o primeiro usuário encontrado
+            resolve({ id: user.id, cpf: user.cpf }); // retorna o id e o cpf
+          } else {
+            reject("Invalid credentials"); // credenciais inválidas
+          }
         },
         (_, error) => reject(error) // erro interno em tx.executeSql
       );
@@ -100,13 +119,14 @@ const verifyCredentials = (cpf, senha) => {
   });
 };
 
+
 const updateSaldo = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "UPDATE User SET saldo = ? WHERE cpf = ?;",
-        [obj.saldo, obj.cpf],
+        "UPDATE User SET saldo = ? WHERE id = ?;",
+        [obj.saldo, obj.id],
         //-----------------------função de callback
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(true);
@@ -117,11 +137,13 @@ const updateSaldo = (obj) => {
     });
   });
 };
+
 export default {
   create,
   all,
   update,
   selectByCpf,
+  selectById,
   verifyCredentials,
   updateSaldo,
 };

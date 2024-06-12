@@ -1,54 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { Pressable, View, Text, FlatList, StyleSheet} from "react-native";
+import { Pressable, View, Text, FlatList, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import styles from "./style/extratoStyle";
 
 import sqLiteExtrato from "../sqlite/sqLiteExtrato";
-import { ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import sqLiteUser from "../sqlite/sqLiteUser";
 
 export default function Extrato() {
-  useEffect(() => {
-    extratoByCPf();
-    getUser();
-  }, [extratoByCPf]);
-
   const navigation = useNavigation();
   const [extrato, setExtrato] = useState([]);
-  const [cpf, setCpf] = useState("")
+  const [id, setId] = useState("");
+  const [saldo, setSaldo] = useState('');
+
+  useEffect(() => {
+    getDataAsync();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (id) {
+        getDataUser();
+        getExtratos();
+      }
+    }, [id])
+  );
 
   const retornar = () => {
     navigation.navigate("Home");
   };
 
-  
-
-  const extratoByCPf = async () => {
-    const extratos = await sqLiteExtrato.all();
-    if (extratos !== false) {
-      setExtrato(extratos);
-      console.log(extratos);
-    } else {
-      return false;
-    }
-    // try {
-    //   const extratos = await sqLiteExtrato.selectByCpf(cpf);
-    //   console.log("aaaaaa "+extratos);
-    // } catch (error) {
-    //     console.error("Error fetching user data:", error);
-    // }
-  };
-  const getUser = async () => {
+  const getDataAsync = async () => {
     try {
-        const value = await AsyncStorage.getItem('cpf');
-        if (value !== null) {
-            setCpf(value)
-        }
+      const idAsync = await AsyncStorage.getItem('id-user');
+      setId(idAsync || '');
     } catch (e) {
-        console.error(e)
+      console.error(e);
     }
-};
+  };
+
+  const getDataUser = async () => {
+    const userData = await sqLiteUser.selectById(id);
+    if (userData) {
+      setSaldo(userData.saldo);
+    } else {
+      console.log("Usuário não encontrado.");
+    }
+  };
+
+  const formatCurrency = (value) => {
+    if (value !== null && !isNaN(value)) {
+      return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+    return 'R$ 0,00';
+  };
+
+  const getExtratos = async () => {
+    try {
+      const extratos = await sqLiteExtrato.selectByUserId(id);
+      setExtrato(extratos);
+    } catch (error) {
+      console.error('Erro ao buscar extratos:', error);
+    }
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.tipo}>
@@ -65,10 +81,10 @@ export default function Extrato() {
       </View>
       <View style={styles.valorData}>
         <View style={styles.valor}>
-          <Text style={styles.valorTxt}>R$ {item.valor}</Text>
+          <Text style={styles.valorTxt}>{formatCurrency(item.valor)}</Text>
         </View>
         <View style={styles.data}>
-          <Text style={styles.dataTxt}>20/12/2006</Text>
+          <Text style={styles.dataTxt}>12/06/2024</Text>
         </View>
       </View>
       <View style={styles.title}>
@@ -102,17 +118,18 @@ export default function Extrato() {
           </View>
           <View style={styles.infoM}>
             <Text style={styles.saldoText}>Saldo em reais</Text>
-            <Text style={styles.saldoMoney}>R$ {cpf}</Text>
+            <Text style={styles.saldoMoney}>{formatCurrency(saldo)}</Text>
           </View>
         </View>
       </LinearGradient>
       <View style={stylesExtrato.extratoContainer}>
-          <FlatList
-            data={extrato}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            contentContainerStyle={stylesExtrato.flatListContent}
-          />
+        <FlatList
+          data={extrato}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          // contentContainerStyle={stylesExtrato.flatListContent}
+          style={styles.cards}
+        />
       </View>
     </View>
   );
@@ -128,7 +145,7 @@ const stylesExtrato = StyleSheet.create({
   extratoContainer: {
     flex: 1,
     padding: 20,
-    paddingTop:15,
+    paddingTop: 15,
   },
   flatListContent: {
     paddingBottom: 20,

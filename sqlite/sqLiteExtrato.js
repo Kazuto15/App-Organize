@@ -9,7 +9,7 @@ db.transaction((tx) => {
   //tx.executeSql("DROP TABLE Extrato;");
   //<<<<<<<<<<<<<<<<<<<<<<<< USE ISSO APENAS DURANTE OS TESTES!!! >>>>>>>>>>>>>>>>>>>>>>>
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS Extrato (id INT PRIMARY KEY, valor REAL, titulo TEXT, desc TEXT, tipo TEXT, cpf TEXT);"
+    "CREATE TABLE IF NOT EXISTS Extrato (id INT PRIMARY KEY, valor REAL, titulo TEXT, desc TEXT, tipo TEXT, idUser TEXT);"
   );
 });
 
@@ -19,9 +19,8 @@ const create = (obj) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "INSERT INTO Extrato ( valor, titulo, desc, tipo, cpf) values ( ?, ?, ?, ?, ?);",
-        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.cpf],
-       
+        "INSERT INTO Extrato (valor, titulo, desc, tipo, idUser) VALUES (?, ?, ?, ?, ?);",
+        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.idUser],
         //-----------------------função de callback
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);
@@ -53,9 +52,8 @@ const update = (obj) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "UPDATE Extrato SET valor = ?, titulo = ?, desc = ?, tipo = ? WHERE cpf = ?;",
-        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.cpf],
-       
+        "UPDATE Extrato SET valor = ?, titulo = ?, desc = ?, tipo = ? WHERE idUser = ?;",
+        [obj.valor, obj.titulo, obj.desc, obj.tipo, obj.idUser],
         //-----------------------função de callback
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(true);
@@ -67,17 +65,31 @@ const update = (obj) => {
   });
 };
 
-const selectByCpf = (cpf) => {
+// const selectByUserId = (idUser) => {
+//   return new Promise((resolve, reject) => {
+//     db.transaction((tx) => {
+//       tx.executeSql(
+//         "SELECT * FROM Extrato WHERE idUser = ?;",
+//         [idUser],
+//         (_, { rows }) => {
+//           if (rows.length > 0) resolve(rows._array[0]);
+//           else reject("No record found with User ID: " + idUser);
+//         },
+//         (_, error) => reject(error)
+//       );
+//     });
+//   });
+// };
+const selectByUserId = (idUser) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
+      //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM Extrato WHERE cpf = ?;",
-        [cpf],
-        (_, { rows }) => {
-          if (rows.length > 0) resolve(rows._array[0]);
-          else reject("No record found with CPF: " + cpf);
-        },
-        (_, error) => reject(error)
+        "SELECT * FROM Extrato WHERE idUser = ?;",
+        [idUser],
+        //-----------------------
+        (_, { rows }) => resolve(rows._array),
+        (_, error) => reject(error) // erro interno em tx.executeSql
       );
     });
   });
@@ -87,5 +99,5 @@ export default {
   create,
   all,
   update,
-  selectByCpf,
+  selectByUserId,
 };

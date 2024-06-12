@@ -23,27 +23,13 @@ export default function Access() {
     const [email, setEmail] = useState("");
     const [tell, setTell] = useState("");
     const [dataNasc, setDataNasc] = useState("");
-    const [saldo, setSaldo] = useState(1)
+    const [saldo, setSaldo] = useState(1);
     const [lembrarCpf, setLembrarCpf] = useState(false);
 
     useEffect(() => {
-        getLembrar();
-        getUser();
+        getDataAsync();
+    }, []);
 
-        //   clearAsyncStorage();
-    })
-    // limpar async
-    // const clearAsyncStorage = async () => {
-    //     try {
-    //       await AsyncStorage.clear();
-    //       console.log('AsyncStorage limpo com sucesso.');
-    //     } catch (error) {
-    //       console.error('Erro ao limpar o AsyncStorage:', error);
-    //     }
-    //   };
-
-
-    // modais
     const singIn = () => {
         setModalSingIn(true);
     };
@@ -52,106 +38,96 @@ export default function Access() {
         setModalSingUp(true);
     };
 
-    // login
-    const logar = async () => {
-        setModalShow(true);
-        setTimeout(async () => {
-            if (lembrarCpf) {
-                const value = "true";
-                await storeLembrar(value);
-            }else{
-                const value = "false";
-                await storeLembrar(value);
-            }
-            storeData(cpf);
-            await checkedCredentials();
-           
-        }, 2000);
+    const logar = () => {
+        setModalShow(true); // Mostrando indicador de carregamento
+        checkCredentials();
     };
 
-    // logia para cadastro e verificação
-    const cad = () => {
-        setModalShow(true);
-        setTimeout(() => {
-            sqLiteUser.create({
-                nome: nome,
-                cpf: cpf,
-                email: email,
-                numero: tell,
-                senha: senha,
-                saldo: saldo,
-            })
-                .then(() => {
-                    console.log("Cadastro feito com sucesso!!!");
-                    setModalSingUp(false);
-                })
-                .catch((error) => {
-                    console.log('Cadastro falhou', error);
-                })
-                .finally(() => {
-                    setModalShow(false);
-                    setNome("");
-                    setCpf("");
-                    setEmail("");
-                    setTell("");
-                    setSenha("");
-                });
-        }, 3000);
-    };
-    const checkedCredentials = () => {
+    const checkCredentials = () => {
         sqLiteUser.verifyCredentials(cpf, senha)
+          .then((user) => {
+            if (user) {
+              if (lembrarCpf) {
+                storeID(user.id);
+                storeCpf(user.cpf);
+              } else {
+                storeID(user.cpf);
+                storeCpf(user.cpf);
+
+              }
+              console.log(user);
+              getDataAsync();
+              setCpf("");
+              setSenha("");
+              navigation.navigate('Home');
+            } else {
+              throw new Error('Usuário não encontrado ou credenciais inválidas');
+            }
+          })
+          .catch((error) => {
+            console.log('Login Failed', error);
+            setSenha("");
+            // Mostrar mensagem de erro ao usuário
+          })
+          .finally(() => {
+            setModalShow(false);
+          });
+      };
+      
+
+    const storeID = async (id) => {
+        try {
+            const userID = id.toString(); // Convertendo para string
+            await AsyncStorage.setItem('id-user', userID);
+        } catch (e) {
+            console.error(e + " id ");
+        }
+    };
+
+    const storeCpf = async (cpf) => {
+        try {
+            await AsyncStorage.setItem('cpf-user', cpf.toString());
+        } catch (e) {
+            console.error(e + " id ");
+        }
+    };
+
+    const getDataAsync = async () => {
+        try {
+            const idAsync = await AsyncStorage.getItem('id-user');
+            const cpfAsync = await AsyncStorage.getItem('cpf-user');
+            if (cpfAsync !== null && idAsync !== null) {
+                console.log(idAsync + " end " + cpfAsync);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const cad = () => {
+        sqLiteUser.create({
+            nome: nome,
+            cpf: cpf,
+            email: email,
+            numero: tell,
+            senha: senha,
+            saldo: saldo,
+        })
             .then(() => {
-                console.log('Login Successful');
-                navigation.navigate('Home');
-                setCpf("");
-                setSenha("");
+                console.log("cadastro feito com sucesso");
+                setModalSingUp(false);
             })
-            .catch((error) => {
-                console.log('Login Failed', error);
-                setSenha("");
+            .catch((e) => {
+                console.error(e + " cad");
             })
             .finally(() => {
-                setModalShow(false);
+                setCpf('');
+                setNome('');
+                setSenha('');
+                setTell('');
+                setEmail('');
             });
     };
-    const storeData = async (cpf) => {
-        try {
-            await AsyncStorage.setItem('cpf', cpf);
-        } catch (e) {
-            console.error(e)
-        }
-    };
-    const storeLembrar = async (value) => {
-        try {
-            await AsyncStorage.setItem('lembrar', value);
-        } catch (e) {
-            console.error(e)
-        }
-    };
-
-
-    // logica de get
-    const getUser = async () => {
-        try {
-            const value = await AsyncStorage.getItem('cpf');
-            if (value !== null) {
-                console.log("cpf: " + value)
-            }
-        } catch (e) {
-            console.error(e)
-        }
-    };
-    const getLembrar = async () => {
-        try {
-            const value = await AsyncStorage.getItem('lembrar');
-            if (value !== null) {
-                console.log("lembrar " + value)
-            }
-        } catch (e) {
-            console.error(e)
-        }
-    };
-
 
     return (
         <View style={styles.container}>
@@ -181,7 +157,7 @@ export default function Access() {
                     <View style={styles.areaCpf}>
                         <View style={styles.areaLabelModal}>
                             <View>
-                                <FontAwesomeIcon icon="fa-solid fa-id-card" style={{ color: "#B197FC" }} />
+                                {/* <FontAwesomeIcon icon="fa-solid fa-id-card" style={{ color: "#B197FC" }} /> */}
                                 <Text style={styles.label}>Digite seu CPF</Text>
                             </View>
                             <Pressable onPress={() => setModalSingIn(false)}>
@@ -224,7 +200,7 @@ export default function Access() {
                     <View style={styles.areaCpf}>
                         <View style={styles.areaLabelModal}>
                             <View>
-                                <FontAwesomeIcon icon="fa-solid fa-id-card" style={{ color: "#B197FC" }} />
+                                {/* <FontAwesomeIcon icon="fa-solid fa-id-card" style={{ color: "#B197FC" }} /> */}
                                 <Text style={styles.label}>Digite sua Senha</Text>
                             </View>
                             <Pressable onPress={() => setModalSingIn2(false)}>
@@ -260,7 +236,7 @@ export default function Access() {
                     <View style={styles.cadastroArea}>
                         <View style={styles.areaLabelModal}>
                             <View>
-                                <FontAwesomeIcon icon="fa-solid fa-id-card" style={{ color: "#B197FC" }} />
+                                {/* <FontAwesomeIcon icon="fa-solid fa-id-card" style={{ color: "#B197FC" }} /> */}
                                 <Text style={styles.label}>Realize seu Cadastro</Text>
                             </View>
                             <Pressable onPress={() => setModalSingUp(false)}>
