@@ -235,12 +235,15 @@ export default function TransferirScreen() {
                                 <TextInput
                                     placeholder='Digite a Chave Pix'
                                     onChangeText={text => setChavePix(text)}
+                                    style={styles.inputBusca}
+                                    placeholderTextColor={"#fff"}
+
                                 />
-                                <Text style={styles.labelModal}>Cpf, Email, Telefone ou chave aleatoria</Text>
+                                <Text style={styles.labelModal}>Digite uma chave cpf, Email, Telefone ou chave aleatoria para realizar o pix</Text>
                             </View>
                             <View style={styles.areaButton}>
                                 <Pressable onPress={buscar} style={styles.btnConfirmar}>
-                                    <Text>Confirmar</Text>
+                                    <Text style={styles.btnTxt}>Confirmar</Text>
                                 </Pressable>
                             </View>
                         </View>

@@ -10,21 +10,24 @@ const transferenciaStyle = StyleSheet.create({
     //     justifyContent: 'center',
     //     alignItems: 'center',
     // }
-
-
     container: {
         flex: 1,
         backgroundColor: "#1e1e1e",
     },
-    top: {
+    containerModal:{
         width: width * 1,
+        height: height*1,
+        // backgroundColor: '#090'
+    },
+    top: {
         paddingLeft: '5%',
+        width: width * 1,
         height: height * 0.1,
-        position: 'absolute',
-        top: 0,
+        // position: '',
         zIndex: 1,
-        alignItems: 'center',
+        top: 30,
         justifyContent: 'flex-end',
+        // backgroundColor: '#900';
     },
     voltar: {
         position: 'absolute',
@@ -44,26 +47,26 @@ const transferenciaStyle = StyleSheet.create({
         color: '#fff',
         fontSize: 22,
     },
-
     modal:{
         flex: 1,
         backgroundColor: "#1e1e1e",
     },
-    containerModal:{
-        width: width * 1,
-        height: height*0.5
-    },
+    
     titlesModal:{
+        top: 30,
         width: '100%',
-        height: '15%',
+        height: '10%',
         display: 'flex',
-        justifyContent: 'space-around'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        // backgroundColor: '#888'
     },
     titleNone:{
         width: 'auto',
         paddingLeft: 5,
         paddingRight: 5,
-        height: '100%',
+        height: '50%',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -71,7 +74,7 @@ const transferenciaStyle = StyleSheet.create({
         width: 'auto',
         paddingLeft: 5,
         paddingRight: 5,
-        height: '100%',
+        height: '50%',
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 2,
@@ -79,30 +82,57 @@ const transferenciaStyle = StyleSheet.create({
     },
     titleTxt:{
         color: '#fff',
-        fontSize: 12,
+        fontSize: 13,
     },
     areaPix:{
         width: width*1,
         height: '85%',
-        justifyContent: 'center',
-        paddingTop: 20,
+        alignItems: 'center',
+        paddingTop: height*0.06,
     },
     cardPix:{
         width: '80%',
         height: '40%',
-        backgroundColor: '#fff',
+        backgroundColor: '#2a2a2ae1',
         borderRadius: 20,
     },
     areaInputBusca:{
         width:'100%',
         height: '70%',
-        padding: 20,
-        alignItems: 'stretch',
+        padding: 10,
+        paddingTop: 30,
+    },
+    inputBusca:{
+        backgroundColor: 'transparent',
+        borderBottomWidth: 2,
+        borderBottomColor: 'rgb(126, 0, 230)',
+        color: '#ff5',
+        fontStyle:'italic',
+        fontSize: 15,
+        marginBottom: 10,
+    },
+    labelModal:{
+        color: '#fff',
+        fontSize: 16,
     },
     areaButton:{
         width:'100%',
         height: '100%',
         padding: 5,
+        alignItems: 'center',
+    },
+    btnConfirmar:{
+        width: '98%',
+        height: '25%',
+        backgroundColor: 'rgb(126, 0, 230)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        borderRadius: 15,
+    },
+    btnTxt:{
+        color: "#fff",
+        fontSize: 20,
     }
 
 
