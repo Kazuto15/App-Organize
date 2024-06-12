@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -9,6 +8,8 @@ import SplashScreen from "./views/splash.js";
 import ProfileScreen from "./views/profile.js";
 import ExtratoScreen from "./views/extrato.js";
 import AccessScreen from "./views/access.js";
+import TransferirScreen from './views/transferencia.js'
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={ProfileScreen}/>
         <Stack.Screen name="Extrato" component={ExtratoScreen}/>
         <Stack.Screen name="Access" component={AccessScreen}/>
+        <Stack.Screen name="Transferencia" component={TransferirScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

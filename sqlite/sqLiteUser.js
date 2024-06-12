@@ -98,6 +98,23 @@ const selectById = (id) => {
     });
   });
 };
+const selectByKey = (chave) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM User WHERE cpf = ? OR email = ? OR numero = ?;",
+        [chave, chave, chave],
+        //-----------------------
+        (_, { rows }) => {
+          if (rows.length > 0) resolve(rows._array[0]);
+          else reject("No record found with key: " + chave); // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
 
 const verifyCredentials = (cpf, senha) => {
   return new Promise((resolve, reject) => {
@@ -145,5 +162,6 @@ export default {
   selectByCpf,
   selectById,
   verifyCredentials,
+  selectByKey,
   updateSaldo,
 };

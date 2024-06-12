@@ -31,6 +31,10 @@ export default function HomeScreen() {
         navigation.navigate('Extrato');
     };
 
+    const TransferirScreen = () => {
+        navigation.navigate('Transferencia');
+    };
+
     const profileScreen = () => {
         navigation.navigate('Profile');
     };
@@ -98,7 +102,7 @@ export default function HomeScreen() {
                 <Pressable style={styleHome.iconOpe} onPress={ExtratoScreen}>
                     <Icon style={{}} name="faEnvelope" size={30} color="#fff" />
                 </Pressable>
-                <Pressable style={styleHome.iconOpe}>
+                <Pressable style={styleHome.iconOpe} onPress={TransferirScreen}>
                     <Icon style={{}} name="faEnvelope" size={30} color="#fff" />
                 </Pressable>
                 <Pressable style={styleHome.iconOpe}>
